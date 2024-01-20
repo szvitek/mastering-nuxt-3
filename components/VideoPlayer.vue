@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const props = defineProps<{
-  videoId: string;
+  videoId: number;
 }>();
 </script>
 
