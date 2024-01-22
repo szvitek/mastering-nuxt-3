@@ -60,7 +60,16 @@
 <script setup>
 const { chapters } = useCourse();
 
-const resetError = (error) => {
-  error.value = null;
+const resetError = async (error) => {
+  // need to navigate first then clear the error!
+  // await navigateTo(
+  //   '/course/chapter/1-chapter-1/lesson/1-introduction-to-typescript-with-vue-js-3'
+  // );
+  // error.value = null;
+
+  throw createError({
+    fatal: true,
+    message: 'Fatal error',
+  });
 };
 </script>
