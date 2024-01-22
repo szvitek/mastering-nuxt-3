@@ -27,7 +27,7 @@
 
 <script setup>
 const error = useError();
-const handleError = async () => {
+const handleError = () => {
   // for some reason this functinality is not working as intended for server errors... :(
   // it clears the error but doesn't redirect (Uncaught (in promise) TypeError: node is null)
   // no workaround yet
