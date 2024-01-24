@@ -1,2 +1,8 @@
-### lesson 1
+### chapter not found - statusCode should be 404
 GET http://localhost:3000/api/course/chapter/chapterSlug/lesson/lessonSlug
+
+### get first lesson
+GET http://localhost:3000/api/course/chapter/1-chapter-1/lesson/1-introduction-to-typescript-with-vue-js-3
+
+### get first lesson POST - this shouldn't work because we want to serve only get requests
+POST http://localhost:3000/api/course/chapter/1-chapter-1/lesson/1-introduction-to-typescript-with-vue-js-3
