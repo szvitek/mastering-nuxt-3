@@ -6,3 +6,6 @@ GET http://localhost:3000/api/course/chapter/1-chapter-1/lesson/1-introduction-t
 
 ### get first lesson POST - this shouldn't work because we want to serve only get requests
 POST http://localhost:3000/api/course/chapter/1-chapter-1/lesson/1-introduction-to-typescript-with-vue-js-3
+
+### get meta data
+GET http://localhost:3000/api/course/meta
