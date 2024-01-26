@@ -25,3 +25,22 @@ type Course = {
 };
 
 type Maybe<T> = T | null | undefined;
+
+type OutlineBase = {
+  title: string;
+  slug: string;
+  number: number;
+};
+
+type OutlineChapter = OutlineBase & {
+  lessons: OutlineLesson[];
+};
+
+type OutlineLesson = OutlineBase & {
+  path: string;
+};
+
+type CourseMeta = {
+  title: string;
+  chapters: OutlineChapter[];
+};

@@ -3,7 +3,7 @@
     <div class="mb-4 flex justify-between items-center w-full">
       <h1 class="text-3xl">
         <span class="font-medium">
-          <span class="font-bold">{{ title }}</span>
+          <span class="font-bold">{{ course.title }}</span>
         </span>
       </h1>
       <UserCard />
@@ -16,7 +16,7 @@
         <h3>Chapters</h3>
         <div
           class="spece-y-1 mb-4 flex flex-col"
-          v-for="chapter in chapters"
+          v-for="chapter in course.chapters"
           :key="chapter.slug"
         >
           <h4>{{ chapter.title }}</h4>
@@ -60,13 +60,13 @@
 </template>
 
 <script setup>
-const { title, chapters } = useCourse();
+// because of the caching in useCourse vue will call the endpont only once :)
+const course = await useCourse();
+const firstLesson = await useFirstLesson();
 
 const resetError = async (error) => {
   // need to navigate first then clear the error!
-  await navigateTo(
-    '/course/chapter/1-chapter-1/lesson/1-introduction-to-typescript-with-vue-js-3'
-  );
+  await navigateTo(firstLesson.path);
   error.value = null;
 };
 </script>
