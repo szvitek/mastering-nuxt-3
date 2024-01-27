@@ -5,7 +5,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 model Course {
@@ -21,7 +22,7 @@ model Chapter {
   title     String
   slug      String
   number    Int
-  lesson    Lesson[]
+  lessons   Lesson[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Course    Course   @relation(fields: [courseId], references: [id])
