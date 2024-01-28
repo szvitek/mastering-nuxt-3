@@ -6,19 +6,24 @@ export default defineEventHandler(async (event) => {
   const chapterSlug = getRouterParam(event, 'chapterSlug');
   const lessonSlug = getRouterParam(event, 'lessonSlug');
 
-  return prisma.lesson.findFirst({
+  const lesson = await prisma.lesson.findFirst({
     where: {
+      slug: lessonSlug,
       Chapter: {
         slug: chapterSlug,
       },
     },
-    include: {
-      Chapter: {
-        select: {
-          slug: true,
-          title: true,
-        },
-      },
-    },
   });
+
+  if (!lesson) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Lesson not found',
+    });
+  }
+
+  return {
+    ...lesson,
+    path: `/course/chapter/${chapterSlug}/lesson/${lessonSlug}`,
+  };
 });

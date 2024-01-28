@@ -1,12 +1,4 @@
-type Lesson = {
-  title: string;
-  slug: string;
-  number: number;
-  downloadUrl: string;
-  sourceUrl?: string;
-  videoId: number;
-  text: string;
-};
+type Lesson = import('@prisma/client').Lesson;
 
 type LessonWithPath = Lesson & {
   path: string;
