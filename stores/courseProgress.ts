@@ -6,17 +6,20 @@ export const useCourseProgress = defineStore('courseProgress', () => {
   async function initialize() {
     // if the course has been already initialized, return
     if (initialized.value) return;
-    
+
     // fetch user progress from endpoint
-    const { data: userProgress } = await useFetch<CourseProgress>('/api/user/progress', {
-      headers: useRequestHeaders(['cookie'])
-    });
-    
+    const { data: userProgress } = await useFetch<CourseProgress>(
+      '/api/user/progress',
+      {
+        headers: useRequestHeaders(['cookie']),
+      }
+    );
+
     // update progress value
     if (userProgress.value) {
-      progress.value = userProgress.value
+      progress.value = userProgress.value;
     }
-    
+
     initialized.value = true;
   }
 
@@ -65,9 +68,46 @@ export const useCourseProgress = defineStore('courseProgress', () => {
     }
   };
 
+  const percentageCompleted = computed(() => {
+    const chapters = Object.values(progress.value).map((chapter) => {
+      const lessons = Object.values(chapter);
+      const completedLessons = lessons.filter((lesson) => lesson);
+
+      return Number((completedLessons.length / lessons.length) * 100).toFixed(
+        0
+      );
+    }, []);
+
+    const totalLessons = Object.values(progress.value).reduce(
+      (number, chapter) => {
+        return number + Object.values(chapter).length;
+      },
+      0
+    );
+
+    const totalCompletedLessons = Object.values(progress.value).reduce(
+      (number, chapter) => {
+        return (
+          number + Object.values(chapter).filter((lesson) => lesson).length
+        );
+      },
+      0
+    );
+
+    const course = Number((totalCompletedLessons / totalLessons) * 100).toFixed(
+      0
+    );
+
+    return {
+      chapters,
+      course,
+    };
+  });
+
   return {
     initialize,
     progress,
     toggleComplete,
+    percentageCompleted,
   };
 });
