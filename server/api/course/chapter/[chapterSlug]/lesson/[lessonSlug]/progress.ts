@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  // get the completed value from the request body and update progress
+  // get the completed value from the request body and update progress in DB
   // select based on the chapter and lesson slugs
   const { completed } = await readBody(event)
   // get user email from the supabasse user if there is on

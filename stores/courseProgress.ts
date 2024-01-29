@@ -1,18 +1,26 @@
-type Progress = Record<string, Record<string, boolean>>;
-
 export const useCourseProgress = defineStore('courseProgress', () => {
   // initialize progress from local storage
-  const progress = ref<Progress>({});
+  const progress = ref<CourseProgress>({});
   const initialized = ref(false);
 
   async function initialize() {
     // if the course has been already initialized, return
     if (initialized.value) return;
+    
+    // fetch user progress from endpoint
+    const { data: userProgress } = await useFetch<CourseProgress>('/api/user/progress', {
+      headers: useRequestHeaders(['cookie'])
+    });
+    
+    // update progress value
+    if (userProgress.value) {
+      progress.value = userProgress.value
+    }
+    
     initialized.value = true;
-
-    // TODO: fetch user progress from endpoint
   }
 
+  // toggle the progress of a lesson based on chapter slug and lesson slug
   const toggleComplete = async (chapter: string, lesson: string) => {
     // if there's no user we can't update the progress
     const user = useSupabaseUser();
