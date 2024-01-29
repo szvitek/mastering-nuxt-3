@@ -9,3 +9,6 @@ POST http://localhost:3000/api/course/chapter/1-chapter-1/lesson/1-introduction-
 
 ### get meta data
 GET http://localhost:3000/api/course/meta
+
+### get protected lesson
+GET http://localhost:3000/api/course/chapter/2-chapter-2/lesson/2-declaring-and-typing-component-props

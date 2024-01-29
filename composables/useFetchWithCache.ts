@@ -15,6 +15,11 @@ export default async <T>(url: string) => {
     // since url is in a varible now TS can't infer the type of data, we need to provide as a Generic
     const { data, error } = await useFetch<T>(url);
 
+    // fix to pass cookies for SSR (seems it's been fixed in newer version of nuxt so above code is ok)
+    // const { data, error } = await useFetch<T>(url, {
+    //   headers: useRequestHeaders(['cookie'])
+    // });
+
     if (error.value) {
       throw createError({
         ...error.value,

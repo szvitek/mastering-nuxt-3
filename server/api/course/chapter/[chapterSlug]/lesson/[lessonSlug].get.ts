@@ -1,8 +1,13 @@
 import { PrismaClient } from '@prisma/client';
+import protectRoute from '~/server/utils/protectRoute';
 
 const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
+  if (event.context.params?.chapterSlug !== '1-chapter-1') {
+    protectRoute(event);
+  }
+
   const chapterSlug = getRouterParam(event, 'chapterSlug');
   const lessonSlug = getRouterParam(event, 'lessonSlug');
 
