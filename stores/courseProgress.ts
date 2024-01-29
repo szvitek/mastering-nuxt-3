@@ -2,7 +2,7 @@ type Progress = Record<string, Record<string, boolean>>;
 
 export const useCourseProgress = defineStore('courseProgress', () => {
   // initialize progress from local storage
-  const progress = useLocalStorage<Progress>('progress', {});
+  const progress = ref<Progress>({});
   const initialized = ref(false);
 
   async function initialize() {
@@ -13,10 +13,7 @@ export const useCourseProgress = defineStore('courseProgress', () => {
     // TODO: fetch user progress from endpoint
   }
 
-  const toggleComplete = async (
-    chapter: string,
-    lesson: string
-  ) => {
+  const toggleComplete = async (chapter: string, lesson: string) => {
     // if there's no user we can't update the progress
     const user = useSupabaseUser();
     if (!user.value) return;
@@ -24,7 +21,7 @@ export const useCourseProgress = defineStore('courseProgress', () => {
     // Grab chapter and lesson slugs from the route if they're not provided
     if (!chapter || !lesson) {
       const {
-        params: { chapterSlug, lessonSlug }
+        params: { chapterSlug, lessonSlug },
       } = useRoute();
 
       chapter = chapterSlug as string;
@@ -32,16 +29,33 @@ export const useCourseProgress = defineStore('courseProgress', () => {
     }
 
     // get the current progress for the lesson
-    const currentProgress: boolean = progress.value[chapter]?.[lesson]
+    const currentProgress: boolean = progress.value[chapter]?.[lesson];
 
     // Optimistically update the progress value in the UI
     progress.value[chapter] = {
       ...progress.value[chapter],
-      [lesson]: !currentProgress
-    }
+      [lesson]: !currentProgress,
+    };
 
-    // TODO: Update in DB
-  }
+    // Update in DB
+    try {
+      await $fetch(`/api/course/chapter/${chapter}/lesson/${lesson}/progress`, {
+        method: 'POST',
+        // automatically stringified by $fetch
+        body: {
+          completed: !currentProgress,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+
+      // if the request faild, revert the progress value
+      progress.value[chapter] = {
+        ...progress.value[chapter],
+        [lesson]: currentProgress,
+      };
+    }
+  };
 
   return {
     initialize,
