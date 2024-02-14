@@ -20,6 +20,7 @@
     "@vueuse/nuxt": "^10.7.2",
     "nuxt": "^3.9.3",
     "prisma": "^5.8.1",
+    "vite-plugin-vsharp": "^1.7.3",
     "vue": "^3.4.14",
     "vue-router": "^4.2.5"
   },
