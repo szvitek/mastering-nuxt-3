@@ -8,9 +8,8 @@
       class="w-full rounded-lg shadow-lg border-2 border-slate-200"
     />
     <div class="text-2xl font-medium">
-      Learn how to use TypeScript in your Vue projects to
-      supercharge your IDE's error detection and
-      autocompletion, as well as provide type safe code
+      Learn how to use TypeScript in your Vue projects to supercharge your IDE's
+      error detection and autocompletion, as well as provide type safe code
       that's easier to reason about and refactor.
     </div>
     <button
@@ -22,11 +21,7 @@
   </Section>
   <Section title="What You'll Learn">
     <ul class="text-2xl font-medium space-y-6">
-      <li
-        v-for="outcome in learningOutcomes"
-        :key="outcome"
-        class="relative"
-      >
+      <li v-for="outcome in learningOutcomes" :key="outcome" class="relative">
         <Badge />
         {{ outcome }}
       </li>
@@ -63,18 +58,13 @@
             <Badge color="bg-blue-400">
               {{ lesson.number }}
             </Badge>
-            <span class="text-xl opacity-80">{{
-              lesson.title
-            }}</span>
+            <span class="text-xl opacity-80">{{ lesson.title }}</span>
           </li>
         </ul>
       </li>
     </ul>
   </Section>
-  <Payment
-    v-if="showPayment"
-    @close="showPayment = false"
-  />
+  <LazyPayment v-if="showPayment" @close="showPayment = false" />
 </template>
 
 <script setup lang="ts">
@@ -92,17 +82,11 @@ const learningOutcomes = [
   'How to use TypeScript with the Options API',
   'How to type reactive data, refs, props, custom events, event handlers, DOM elements, template refs, data from provide/inject, and more',
 ];
-const screenshots = [
-  screen1,
-  screen2,
-  screen3,
-  screen4,
-  screen5,
-];
+const screenshots = [screen1, screen2, screen3, screen4, screen5];
 
 definePageMeta({
   layout: false,
 });
 
 const showPayment = ref(false);
-</script> 
+</script>
