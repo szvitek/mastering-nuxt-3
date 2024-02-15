@@ -13,26 +13,25 @@
 <script setup lang="ts">
 const course = await useCourse();
 const supabase = useSupabaseClient();
-// const { query } = useRoute();
-// const user = useSupabaseUser();
+const { query } = useRoute();
+const user = useSupabaseUser();
 
-// nothing happens...
-// watchEffect(async () => {
-//   if (user.value) {
-
-//     await navigateTo(query.redirectTo as string, {
-//       replace: true,
-//     });
-//   }
-// });
+watchEffect(async () => {
+  if (user.value) {
+    await navigateTo(query.redirectTo as string, {
+      replace: true,
+    });
+  }
+});
 
 const login = async () => {
   // this one doesn't work... supabase has changed a bit since the tutorial was recorded, no workaround found yet
-  // const redirectTo = `${window.location.origin}${query.redirectTo}`;
+  const redirectPath = query.redirectTo ?? '/confirm';
+  const redirectTo = `${window.location.origin}${redirectPath}`;
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'github',
     options: {
-      redirectTo: 'http://localhost:3000/confirm',
+      redirectTo,
     },
   });
 
