@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     stripeSecret: '',
+    stripeWebhookSecret: '',
     public: {
       stripeKey: '',
     },

@@ -20,6 +20,54 @@ yarn install
 bun install
 ```
 
+## Stripe and webhooks
+
+Stripe test card: spam 42 all over in the input
+
+**Card number:** `4242 4242 4242 4242`
+
+**MM / YY:** `04/24`
+
+**CVC:** `242`
+
+**ZIP:** `42424`
+
+Webhooks: https://docs.stripe.com/webhooks
+
+Install Stripe CLI: https://docs.stripe.com/stripe-cli
+
+Login to stripe cli, verify in browser
+
+```bash
+stripe login
+```
+
+start stripe server locally to test webhooks:
+
+```bash
+stripe listen --forward-to=http://localhost:3000/api/stripe/webhook
+```
+
+then get the webhook secret and put in .env
+
+trigger the webhooks success:
+
+```bash
+stripe trigger payment_intent.succeeded
+```
+
+trigger the webhooks failed:
+
+```bash
+stripe trigger payment_intent.payment_failed
+```
+
+**When the app is deployed don't forget to setup the webhook endpoint in stripe dashboard**
+
+```
+Stripe Dashboard -> Developers -> Webhooks -> Hosted endpoints -> Add endpoint
+```
+
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
